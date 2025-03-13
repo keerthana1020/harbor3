@@ -1,0 +1,39 @@
+harbor:
+  replicaCount: 1
+  image:
+    repository: goharbor/harbor
+    tag: latest
+    pullPolicy: IfNotPresent
+
+  service:
+    type: LoadBalancer
+    port: 80
+
+  persistence:
+    enabled: true
+    storageClass: gp3-csi
+    accessMode: ReadWriteOnce
+    size: 100Gi
+
+  ingress:
+    enabled: true  # Change to true if using ingress
+    className: "nginx"
+    annotations:
+      nginx.ingress.kubernetes.io/proxy-body-size: 0
+    hosts:
+      - host: harbor.example.com
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+
+  resources:
+    limits:
+      cpu: "2"
+      memory: "4Gi"
+    requests:
+      cpu: "500m"
+      memory: "2Gi"
+
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}

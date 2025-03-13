@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: harbor
+  labels:
+    app: harbor
+spec:
+  replicas: {{ .Values.harbor.replicaCount }}
+  selector:
+    matchLabels:
+      app: harbor
+  template:
+    metadata:
+      labels:
+        app: harbor
+    spec:
+      containers:
+        - name: harbor
+          image: "{{ .Values.harbor.image.repository }}:{{ .Values.harbor.image.tag }}"
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: harbor-data
+              mountPath: /data
+          resources:
+            {{- toYaml .Values.harbor.resources | nindent 12 }}
+      volumes:
+        - name: harbor-data
+          persistentVolumeClaim:
+            claimName: harbor-pvc

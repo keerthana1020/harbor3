@@ -1,0 +1,6 @@
+apiVersion: v2
+name: harbor
+description: A Helm chart for deploying Harbor
+version: 2.12.2
+appVersion: "latest"
+type: application

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: harbor-pvc
+spec:
+  accessModes:
+    - {{ .Values.harbor.persistence.accessMode }}
+  storageClassName: {{ .Values.harbor.persistence.storageClass }}
+  resources:
+    requests:
+      storage: {{ .Values.harbor.persistence.size }}
